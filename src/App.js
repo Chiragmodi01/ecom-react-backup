@@ -1,41 +1,36 @@
 import "./App.css";
-import logo from "./logo.png";
+import "./styles/reset/reset.css";
+import Header from "./comps/Header";
+import ProductsPage from "./pages/ProductsPage";
+import WishlistPage from "./pages/WishlistPage";
+import PageNotFound from "./pages/PageNotFound";
+import CartPage from "./pages/CartPage";
+import HomePage from "./pages/HomePage";
+import ProfilePage from "./pages/ProfilePage";
+import { Routes, Route } from "react-router-dom";
+import { scrollToTop } from './utils/scrollToTop';
+import Mockman from 'mockman-js';
+import Footer from "./comps/Footer";
+import { useProducts } from "./helpers/context/products-context";
 
-function App() {
+function App( ) {
+
+  const { state } = useProducts();
+  scrollToTop();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} alt="mockBee logo" width="180" height="180" />
-        <h1 className="brand-title">
-          Welcome to <span>mockBee!</span>
-        </h1>
-        <p className="brand-description">
-          Get started by editing <code>src/App.js</code>
-        </p>
-        <div className="links">
-          <a
-            href="https://mockbee.netlify.app/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Explore mockBee
-          </a>
-          <a
-            href="https://mockbee.netlify.app/docs/api/introduction"
-            target="_blank"
-            rel="noreferrer"
-          >
-            API Documentation
-          </a>
-          <a
-            href="https://github.com/neogcamp/mockBee"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Contribute
-          </a>
-        </div>
-      </header>
+    <div className={state.showLogin ? "App shortApp" : "App"}>
+      <Header />
+      <Routes>
+        <Route path="/" element={<HomePage />}/>
+        <Route path="/products" element={<ProductsPage />}/>
+        <Route path="/wishlist" element={<WishlistPage />}/>
+        <Route path="/cart" element={<CartPage />}/>
+        <Route path="/profile" element={<ProfilePage />}/>
+        <Route path="/mock" element={<Mockman />} />
+        <Route path = '*' element={<PageNotFound />} />
+      </Routes>
+      <Footer />
     </div>
   );
 }
